@@ -86,7 +86,7 @@ def assign_shift(ts: pd.Series) -> pd.DataFrame:
     assert all(s.hours == 8 for s in SHIFTS) and len(SHIFTS) == 3
     shifted: pd.Series = ts - pd.Timedelta(hours=FIRST_SHIFT_START.hour, minutes=FIRST_SHIFT_START.minute)
     codes = [s.code for s in SHIFTS]
-    out = pd.DataFrame(
+    out: pd.DataFrame = pd.DataFrame(
         {
             "shift_date": shifted.dt.date,
             "shift": (shifted.dt.hour // 8).map(lambda i: codes[i]),
