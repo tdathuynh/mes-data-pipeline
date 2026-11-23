@@ -84,15 +84,16 @@ def assign_shift(ts: pd.Series) -> pd.DataFrame:
     ``FIRST_SHIFT_START``; checked here so a config change cannot silently break it.
     """
     assert all(s.hours == 8 for s in SHIFTS) and len(SHIFTS) == 3
-    shifted = ts - pd.Timedelta(hours=FIRST_SHIFT_START.hour, minutes=FIRST_SHIFT_START.minute)
+    shifted: pd.Series = ts - pd.Timedelta(hours=FIRST_SHIFT_START.hour, minutes=FIRST_SHIFT_START.minute)
     codes = [s.code for s in SHIFTS]
-    return pd.DataFrame(
+    out = pd.DataFrame(
         {
             "shift_date": shifted.dt.date,
             "shift": (shifted.dt.hour // 8).map(lambda i: codes[i]),
         },
         index=ts.index,
     )
+    return out
 
 
 @dataclass

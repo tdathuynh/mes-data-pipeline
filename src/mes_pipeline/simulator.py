@@ -197,8 +197,7 @@ def _inject_defects(data: SimulatedData, rng: np.random.Generator) -> None:
     for i in pick(ev, 0.01):
         ev.append(dict(ev[i]))
     tail = ev[-200:]
-    rng.shuffle(tail)  # type: ignore[arg-type]
-    ev[-200:] = tail
+    ev[-200:] = [tail[j] for j in rng.permutation(len(tail))]
     for i in pick(ev, 0.002):
         ev[i] = {**ev[i], "machine_id": "CNC-99"}  # machine not in master data
     for i in pick(ev, 0.002):

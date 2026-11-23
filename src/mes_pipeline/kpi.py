@@ -124,4 +124,5 @@ def aggregate_kpis(shift_kpi: pd.DataFrame, by: list[str]) -> pd.DataFrame:
     g["quality"] = g["good_count"] / tot
     g["scrap_rate"] = g["scrap_count"] / tot
     g["oee"] = g["availability"] * g["performance"] * g["quality"]
-    return g.drop(columns="ideal_output_s")
+    out: pd.DataFrame = g.drop(columns="ideal_output_s")
+    return out
