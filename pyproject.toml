@@ -1,0 +1,45 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mes-data-pipeline"
+version = "0.1.0"
+description = "Portfolio project: ETL pipeline and OEE dashboard for (synthetic) manufacturing / MES data"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Dat Huynh" }]
+requires-python = ">=3.10"
+dependencies = [
+    "duckdb>=1.0",
+    "numpy>=1.26",
+    "pandas>=2.0",
+    "pydantic>=2.5",
+]
+
+[project.optional-dependencies]
+dashboard = ["streamlit>=1.35", "plotly>=5.20"]
+dev = ["pytest>=8", "ruff>=0.6", "mypy>=1.10", "pandas-stubs>=2.0"]
+
+[project.scripts]
+mes-pipeline = "mes_pipeline.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mes_pipeline"]
+
+[tool.pytest.ini_options]
+testpaths = ["src", "tests"]
+addopts = "-q --doctest-modules"
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF", "PD", "N"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+ignore_missing_imports = true
+files = ["src"]
